@@ -1,13 +1,12 @@
 from typing import List
 
 
-def create_run_inputs_from_room_config(runner_per_room: dict, template: dict) -> List[dict]:
-    min_price, max_price = template["minMaxPrice"].split("-")
-    min_price, max_price = int(min_price), int(max_price)
-
+def create_run_inputs(runners_per_room: dict, minMaxPrice: tuple, template: dict) -> List[dict]:
+    min_price, max_price = minMaxPrice
     run_inputs = []
 
-    for rooms, runners in template["rooms"].items():
+    for rooms, runners in runners_per_room.items():
+        rooms, runners = int(rooms), int(runners)
         increment = (max_price - min_price) // runners
 
         for i in range(runners):
@@ -19,6 +18,7 @@ def create_run_inputs_from_room_config(runner_per_room: dict, template: dict) ->
             run_input["rooms"] = rooms
             run_input["minMaxPrice"] = f"{start}-{end}"
             run_inputs.append(run_input)
+    return run_inputs
 
 
 async def scrape(runner_per_room, template):
