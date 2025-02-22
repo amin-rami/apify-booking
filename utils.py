@@ -24,5 +24,5 @@ def create_run_inputs(runners_per_room: dict, minMaxPrice: tuple, template: dict
 
 
 async def scrape(client: ApifyClientAsync, actor_id: str, run_inputs: List[dict]):
-    tasks = [client.actor(actor_id).start(run_input) for run_input in run_inputs]
+    tasks = [client.actor(actor_id).start(run_input=run_input) for run_input in run_inputs]
     await asyncio.gather(*tasks)

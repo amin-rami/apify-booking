@@ -1,0 +1,1 @@
+{"adults": 1, "rooms": 1, "minMaxPrice": "28570-42855", "checkIn": "2026-04-01", "checkOut": "2026-04-15", "currency": "USD", "language": "en-gb", "maxItems": 100000, "propertyType": "none", "search": "Dubai", "starsCountFilter": "any"}
