@@ -11,8 +11,8 @@ load_dotenv()
 
 API_TOKEN = os.getenv("APIFY_API_TOKEN")
 ACTOR_ID = os.getenv("ACTOR_ID")
-MIN_PRICE = os.getenv("MIN_PRICE")
-MAX_PRICE = os.getenv("MAX_PRICE")
+MIN_PRICE = int(os.getenv("MIN_PRICE"))
+MAX_PRICE = int(os.getenv("MAX_PRICE"))
 runners_per_room = json.loads(os.getenv("RUNNERS_PER_ROOM"))
 
 
