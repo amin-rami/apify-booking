@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from apify_client import ApifyClientAsync
 from utils import push_data_to_target_dataset
 import asyncio
+from tqdm import tqdm
 
 load_dotenv()
 
@@ -18,10 +19,11 @@ with open(config_file_path) as file:
 
 origin_ids = config["origin_ids"]
 destination_id = config["destination_id"]
+chunk_size = 150
 
 
 async def push():
-    for origin_id in origin_ids:
-        await push_data_to_target_dataset(client, origin_id, destination_id)
+    for origin_id in tqdm(origin_ids):
+        await push_data_to_target_dataset(client, origin_id, destination_id, chunk_size)
 
 asyncio.run(push())
