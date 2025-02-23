@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Iterable
 from apify_client import ApifyClientAsync
 import asyncio
 
@@ -23,6 +23,11 @@ def create_run_inputs(runners_per_room: dict, minMaxPrice: tuple, template: dict
     return run_inputs
 
 
+def create_chunks(iterable: Iterable, chunk_size: int):
+    for i in range(0, len(iterable), chunk_size):
+        yield iterable[i: i + chunk_size]
+
+
 async def scrape(client: ApifyClientAsync, actor_id: str, run_inputs: List[dict]):
     tasks = [client.actor(actor_id).start(run_input=run_input) for run_input in run_inputs]
     await asyncio.gather(*tasks)
@@ -31,8 +36,11 @@ async def scrape(client: ApifyClientAsync, actor_id: str, run_inputs: List[dict]
 async def push_data_to_target_dataset(
     client: ApifyClientAsync,
     origin_dataset_id: str,
-    destination_dataset_id: str
+    destination_dataset_id: str,
+    chunk_size: int
 ) -> None:
     data = await client.dataset(origin_dataset_id).list_items()
     data = data.items
-    await client.dataset(destination_dataset_id).push_items(data)
+    chunks = create_chunks(data, chunk_size)
+    for chunk in chunks:
+        await client.dataset(destination_dataset_id).push_items(chunk)
