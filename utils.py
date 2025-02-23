@@ -29,7 +29,7 @@ def create_chunks(iterable: Iterable, chunk_size: int):
 
 
 async def scrape(client: ApifyClientAsync, actor_id: str, run_inputs: List[dict]):
-    tasks = [client.actor(actor_id).start(run_input=run_input, timeout_secs=36000) for run_input in run_inputs]
+    tasks = [client.actor(actor_id).start(run_input=run_input, timeout_secs=108000) for run_input in run_inputs]
     await asyncio.gather(*tasks)
 
 
